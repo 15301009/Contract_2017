@@ -1,12 +1,21 @@
 <?php
 
-function validRegisterName($name) {
+function validName($name) {
 	if (empty($name)) {
 		return "请输入用户名！";
 	} else if(preg_match("/[^a-zA-Z0-9_]/",$name)) {
 		return "只允许字母、数字和下划线";
 	} else if (strlen($name) < 4) {
 		return "字符数小于4";
+	} else {
+		return "";
+	}
+}
+
+function validRegisterName($name) {
+	$err = validName($name);
+	if ($err != "") {
+		return $err;
 	} else {
 		require_once 'MySqlConn.php';
 		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
@@ -24,12 +33,9 @@ function validRegisterName($name) {
 }
 
 function validLoginName($name) {
-	if (empty($name)) {
-		return "请输入用户名！";
-	} else if(preg_match("/[^a-zA-Z0-9_]/",$name)) {
-		return "只允许字母、数字和下划线";
-	} else if (strlen($name) < 4) {
-		return "字符数小于4";
+	$err = validName($name);
+	if ($err != "") {
+		return $err;
 	} else {
 		require 'MySqlConn.php';
 		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);

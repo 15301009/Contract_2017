@@ -31,7 +31,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	// 检测用户名是否为空或只包含字母、数字和下划线
 	$nameErr = validLoginName($name);
 	// 检测密码是否为空或只包含字母和数字
-	$passwordErr = validLoginPassword($name, $password);
+	if ($nameErr == "") {
+		$passwordErr = validLoginPassword($name, $password);
+	}
 
 	if ($nameErr == "" && $passwordErr == "") {
 		echo 'login ok!';
