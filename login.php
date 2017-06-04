@@ -11,22 +11,48 @@
  				top.location.href=self.location.href;
  			}  
   		</script>
+<style type="text/css">
+.error {
+	color: #FF0000;
+}
+</style>
 </head>
+
+<?php
+$nameErr = $passwordErr = "";
+$name = $password = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST")
+{
+	require_once 'formcheck.php';
+	$name = test_input($_POST["name"]);
+	$password = test_input($_POST["password"]);
+
+	// 检测用户名是否为空或只包含字母、数字和下划线
+	$nameErr = validLoginName($name);
+	// 检测密码是否为空或只包含字母和数字
+	$passwordErr = validLoginPassword($name, $password);
+
+	if ($nameErr == "" && $passwordErr == "") {
+		echo 'login ok!';
+	}
+}
+?>
 
 <body>
 <!-- header start -->
 <div class="header">
-<div class="toplinks"><span> [<a href="login.html"
-	target="_top">登录</a>] &nbsp;|&nbsp; [<a href="register.html">注册</a>] </span></div>
+<div class="toplinks"><span> [<a href="login.html" target="_top">登录</a>]
+&nbsp;|&nbsp; [<a href="register.html">注册</a>] </span></div>
 
-<h1><img src="images/logo_title.png"
-	alt="Contract Management System" /></h1>
+<h1><img src="images/logo_title.png" alt="Contract Management System" /></h1>
 </div>
 <!-- header end -->
 
 <!-- main start -->
 <div class="main">
-<form action="#" method="post">
+<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>"
+	method="post">
 
 <div class="register_main">
 <table>
@@ -34,21 +60,26 @@
 		<td class="title" colspan="3">用户登录</td>
 	</tr>
 	<tr>
-		<td width="60">用户名:</td>
-		<td width="200"><input type="text" name="name" id="name" value=""
-			height="40" /></td>
-		<td width="200"></td>
+		<td width="100">用户名:</td>
+		<td width="200"><input type="text" name="name" id="name"
+			value="<?php echo $name?>" height="40" /></td>
+		<td width="200"><span class="error">* <?php echo $nameErr; ?></span></td>
+	</tr>
+	<tr>
+		<td class="info" colspan="2">请输入用户名，用户姓名长度不可小于4(包括数字，字母，下划线).</td>
 	</tr>
 
 	<tr>
 		<td>密码:</td>
-		<td><input type="password" name="password" id="password" value=""
-			height="40" /></td>
-		<td></td>
+		<td><input type="password" name="password" id="password"
+			value="<?php echo $password?>" height="40" /></td>
+		<td><span class="error">* <?php echo $passwordErr; ?></span></td>
 	</tr>
 	<tr>
-		<td colspan="3"><input type="submit" value="提交" class="button" />
-		</td>
+		<td class="info" colspan="2">请输入密码，密码长度不可小于4(包括数字，字母).</td>
+	</tr>
+	<tr>
+		<td colspan="3"><input type="submit" value="提交" class="button" /></td>
 	</tr>
 </table>
 </div>
