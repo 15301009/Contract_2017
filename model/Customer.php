@@ -20,7 +20,7 @@ class Customer {
 	}
 
 	function setCustomerId() {
-		require_once 'MySqlConn.php';
+		require_once 'db/MySqlConn.php';
 		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 
 		if ($conn->connect_error) {
@@ -90,10 +90,4 @@ class Customer {
 		return $this->strCustomerId;
 	}
 }
-
-$cus = new Customer("1", "", "", "", "", "", "");
-
-$cus->setCustomerId();
-
-echo $cus->getCustomerId();
 ?>

@@ -18,7 +18,7 @@ class Role {
 	function __destruct() {}
 	
 	function setRoleName($roleName) {
-		$this->strRoleName = $roleName;
+		$this->strRoleName = $roleName; 
 	}
 	
 	function setDescription($description) {

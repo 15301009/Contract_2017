@@ -17,22 +17,25 @@
 <body>
 
 <?php
-
+session_start();
 // 定义变量并默认设置为空值
-$nameErr = $passwordErr = $repeatPasswordErr = "";
-$name = $password = $password2 = "";
+$feedback = $usernameErr = $passwordErr = $repeatPasswordErr = $name = "";
+$username = $password = $password2 = $nameErr = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
 	require_once 'formcheck.php';
-	$name = test_input($_POST["name"]);
+	$username = test_input($_POST["username"]);
 	$password = test_input($_POST["password"]);
 	$password2 = test_input($_POST["password2"]);
+	$name = test_input($_POST['name']);
 
 	// 检测用户名是否为空或只包含字母、数字和下划线
-	$nameErr = validRegisterName($name);
+	$usernameErr = validRegisterName($username);
 	// 检测密码是否为空或只包含字母和数字
 	$passwordErr = validPassword($password);
+	
+	$nameErr = validName($name);
 
 	if ($password2 == "") {
 		$repeatPasswordErr = "请再次输密码！";
@@ -40,8 +43,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		$repeatPasswordErr = "两次密码不一致！";
 	}
 
-	if ($nameErr == "" && $passwordErr == "" && $repeatPasswordErr == "") {
-		echo 'register ok!';
+	if ($nameErr == "" && $usernameErr == "" && $passwordErr == "" && $repeatPasswordErr == "") {
+		$_SESSION['name'] = $name;
+		require 'db/MySqlConn.php';
+		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
+		
+		if ($conn->connect_error) {
+			$feedback = "操作失败: " . $conn->connect_error;
+		} else {
+			$feedback = addUser($conn, $username, $password, $name);
+			header("refresh:1;url=frame1.php");
+		}
 	}
 }
 ?>
@@ -66,13 +78,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		<td class="title" colspan="2">用户注册</td>
 	</tr>
 	<tr>
-		<td width="120" align="center">用户姓名:</td>
+		<td width="120" align="center">用户名:</td>
+		<td><input type="text" name="username" id="username"
+			value="<?php echo $username?>"> <span class="error">* <?php echo $usernameErr; ?>
+		</span></td>
+	</tr>
+	<tr>
+		<td class="info" colspan="2">用户名唯一且最低字数为4，最长为20(包括数字，字母，下划线).</td>
+	</tr>
+	
+	<tr>
+		<td width="120" align="center">姓名:</td>
 		<td><input type="text" name="name" id="name"
 			value="<?php echo $name?>"> <span class="error">* <?php echo $nameErr; ?>
 		</span></td>
 	</tr>
 	<tr>
-		<td class="info" colspan="2">用户姓名必须以字母开头，最低字数为4(包括数字，字母，下划线).</td>
+		<td class="info" colspan="2">姓名可重复，最低字数为4，最长为20(包括数字，字母，下划线).</td>
 	</tr>
 
 	<tr>
@@ -82,7 +104,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		</span></td>
 	</tr>
 	<tr>
-		<td class="info" colspan="2">密码字数不可以低于4，建议使用字母数字混合，注意大小写！</td>
+		<td class="info" colspan="2">密码字数不可以低于4，不可超过20，建议使用字母数字混合，注意大小写！</td>
 	</tr>
 
 	<tr>
@@ -90,13 +112,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 		<td><input type="password" name="password2" id="password2"
 			value="<?php echo $password2?>"><span class="error">* <?php echo $repeatPasswordErr; ?>
 		</span></td>
-	</tr>
+	</tr>  
 	<tr>
-		<td class="info" colspan="2">在输入一次密码，与之前的密码保持一致!</td>
+		<td class="info" colspan="2">再输入一次密码，与之前的密码保持一致!</td>
 	</tr>
 
 	<tr>
-		<td colspan="2"><input type="submit" value="提交" class="button" /></td>
+		<td colspan="2"><input type="submit" value="提交" class="button" /><span class="error">* <?php echo $feedback; ?>
+		</span></td>
 	</tr>
 </table>
 </div>

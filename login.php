@@ -16,9 +16,10 @@
 	color: #FF0000;
 }
 </style>
-</head>
+</head>  
 
 <?php
+session_start();
 $nameErr = $passwordErr = "";
 $name = $password = "";
 
@@ -36,16 +37,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 	}
 
 	if ($nameErr == "" && $passwordErr == "") {
-		echo 'login ok!';
+		$_SESSION['name'] = $name;
+		header("refresh:1;url=frame1.php");
 	}
+
 }
 ?>
 
 <body>
 <!-- header start -->
 <div class="header">
-<div class="toplinks"><span> [<a href="login.html" target="_top">µÇÂ¼</a>]
-&nbsp;|&nbsp; [<a href="register.html">×¢²á</a>] </span></div>
+<div class="toplinks"><span> [<a href="login.php" target="_top">µÇÂ¼</a>][<a href="register.php">×¢²á</a>] </span></div>
 
 <h1><img src="images/logo_title.png" alt="Contract Management System" /></h1>
 </div>

@@ -7,7 +7,10 @@ function validName($name) {
 		return "只允许字母、数字和下划线";
 	} else if (strlen($name) < 4) {
 		return "字符数小于4";
+	} else if (strlen($name) > 20) {
+		return "字符数大于20";
 	} else {
+
 		return "";
 	}
 }
@@ -17,7 +20,7 @@ function validRegisterName($name) {
 	if ($err != "") {
 		return $err;
 	} else {
-		require_once 'MySqlConn.php';
+		require_once 'db/MySqlConn.php';
 		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 			
 		if ($conn->connect_error) {
@@ -37,7 +40,7 @@ function validLoginName($name) {
 	if ($err != "") {
 		return $err;
 	} else {
-		require 'MySqlConn.php';
+		require 'db/MySqlConn.php';
 		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 			
 		if ($conn->connect_error) {
@@ -59,6 +62,8 @@ function validPassword($password) {
 		return "只允许字母、数字！";
 	} else if (strlen($password) < 4) {
 		return "密码长度数小于4！";
+	} else if (strlen($password) > 20) {
+		return "字符数大于20";
 	} else {
 		return "";
 	}
@@ -69,7 +74,7 @@ function validLoginPassword($name, $password) {
 	if ($err != ""){
 		return $err;
 	} else {
-		require 'MySqlConn.php';
+		require 'db/MySqlConn.php';
 		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 			
 		if ($conn->connect_error) {
@@ -91,5 +96,4 @@ function test_input($data)
 	$data = htmlspecialchars($data);
 	return $data;
 }
-
 ?>
