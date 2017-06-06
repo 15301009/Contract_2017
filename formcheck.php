@@ -10,7 +10,6 @@ function validName($name) {
 	} else if (strlen($name) > 20) {
 		return "×Ö·ûÊı´óÓÚ20";
 	} else {
-
 		return "";
 	}
 }
