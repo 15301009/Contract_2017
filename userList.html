@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
-<title>Role list</title>
+<title>User list</title>
 <link href="css/style.css" rel="stylesheet" media="screen"
 	type="text/css" />
 <script
@@ -13,17 +13,17 @@
 
 <script>
 $(document).ready(function() {
-	$.post("queryRole.php",{
+	$.post("queryUser.php",{
 	},function(data,status){
 		res=eval(data);  
         for(var i=0;i<res.length;i++){
-        	var tr = $("<tr>").appendTo("#roleList"); //动态创建每一列，并往里面添加内容  
-    		$("<td>").appendTo(tr).text(res[i].rolename).css("text-align", "center");  
-    		$("<td>").appendTo(tr).text(res[i].description);
+        	var tr = $("<tr>").appendTo("#userList"); //动态创建每一列，并往里面添加内容  
+    		$("<td>").appendTo(tr).text(res[i].username).css("text-align", "center");  
+    		$("<td>").appendTo(tr).text(res[i].name);
     		$("<td>").appendTo(tr).text(res[i].crttime);
     		var td = $("<td>").appendTo(tr);
     		var t = $("<a>").appendTo(td);
-    		t.attr("href", "editRole.html");
+    		t.attr("href", "editUser.html");
     		t.text("编辑");
     		t.prepend("<img src='images/icon-edit.png'>");                   
         }
@@ -31,19 +31,19 @@ $(document).ready(function() {
 });
 </script>
 
-<div class="mtitle">角色权限</div>
+<div class="mtitle">用户管理</div>
 <br />
 
 <div style="text-align: right; width: 480px;"><a
-	href="addRole.html"> <img src="images/add.png" alt="Add Role" />添加
+	href="addUser.html"> <img src="images/add.png" alt="Add User" />添加
 </a></div>
 
 <div class="list">
-<table id="roleList">
+<table id="userList">
 	<tr>
-		<th style="width: 100px;">角色名</th>
-		<th>描述</th>
-		<th style="width: 100px;">建立时间</th>
+		<th style="width: 100px;">用户名</th>
+		<th style="width: 200px;">姓名</th>
+		<th>建立时间</th>
 		<th style="width: 150px;">操作</th>
 	</tr>
 

@@ -1,7 +1,6 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<?php header("Content-Type:text/html;charset=gbk"); ?>
 <title>合同管理系统 登录</title>
 <link href="css/style.css" rel="stylesheet" media="screen"
 	type="text/css" />
@@ -19,6 +18,7 @@
 </head>  
 
 <?php
+header("Content-Type:text/html;charset=gbk");
 session_start();
 $nameErr = $passwordErr = "";
 $name = $password = "";
