@@ -38,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 	if ($nameErr == "" && $passwordErr == "") {
 		$_SESSION['name'] = $name;
-		header("refresh:1;url=frame1.php");
+		header("refresh:1;url=frame1.html");
 	}
 
 }
