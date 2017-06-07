@@ -1,7 +1,7 @@
 <?php
 $db_hostname = 'localhost';
 $db_username = 'root';
-$db_password = '15301002';
+$db_password = 'MYtaeyeon32';
 $db_database = 'contractdb';
 
 if (!function_exists('getNewCustomerId')) {
