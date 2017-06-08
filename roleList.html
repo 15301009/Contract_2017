@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Role list</title>
 <link href="css/style.css" rel="stylesheet" media="screen"
 	type="text/css" />
@@ -14,37 +14,39 @@
 <script>
 $(document).ready(function() {
 	$.post("queryRole.php",{
+		rolename:"",
+		sql: "select"
 	},function(data,status){
-		res=eval(data);  
+		res=eval(data);
         for(var i=0;i<res.length;i++){
-        	var tr = $("<tr>").appendTo("#roleList"); //¶¯Ì¬´´½¨Ã¿Ò»ÁĞ£¬²¢ÍùÀïÃæÌí¼ÓÄÚÈİ  
+        	var tr = $("<tr>").appendTo("#roleList");
     		$("<td>").appendTo(tr).text(res[i].rolename).css("text-align", "center");  
     		$("<td>").appendTo(tr).text(res[i].description);
     		$("<td>").appendTo(tr).text(res[i].crttime);
     		var td = $("<td>").appendTo(tr);
     		var t = $("<a>").appendTo(td);
-    		t.attr("href", "editRole.html");
-    		t.text("±à¼­");
+    		t.attr("href", "editRole.html?rolename=" + res[i].rolename);
+    		t.text("ç¼–è¾‘");
     		t.prepend("<img src='images/icon-edit.png'>");                   
         }
 	});
 });
 </script>
 
-<div class="mtitle">½ÇÉ«È¨ÏŞ</div>
+<div class="mtitle">è§’è‰²æƒé™</div>
 <br />
 
 <div style="text-align: right; width: 480px;"><a
-	href="addRole.html"> <img src="images/add.png" alt="Add Role" />Ìí¼Ó
+	href="addRole.html"> <img src="images/add.png" alt="Add Role" />æ·»åŠ 
 </a></div>
 
 <div class="list">
 <table id="roleList">
 	<tr>
-		<th style="width: 100px;">½ÇÉ«Ãû</th>
-		<th>ÃèÊö</th>
-		<th style="width: 100px;">½¨Á¢Ê±¼ä</th>
-		<th style="width: 150px;">²Ù×÷</th>
+		<th style="width: 100px;">è§’è‰²å</th>
+		<th>æè¿°</th>
+		<th style="width: 100px;">å»ºç«‹æ—¶é—´</th>
+		<th style="width: 150px;">æ“ä½œ</th>
 	</tr>
 
 	<tr>
@@ -58,6 +60,6 @@ $(document).ready(function() {
 	src="images/page/pre.png" alt="" /></a>&nbsp; <a href="#"><img
 	src="images/page/next.png" alt="" /></a>&nbsp; <a href="#"><img
 	src="images/page/last.png" alt="" /></a>&nbsp; <span class="pageinfo">
-×Ü¼Æ&nbsp;<strong>2</strong>&nbsp;Ò³&nbsp;<strong>13</strong>&nbsp;Ìõ </span></div>
+æ€»è®¡&nbsp;<strong>2</strong>&nbsp;é¡µ&nbsp;<strong>13</strong>&nbsp;æ¡ </span></div>
 </body>
 </html>

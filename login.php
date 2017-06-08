@@ -15,7 +15,7 @@
 	color: #FF0000;
 }
 </style>
-</head>  
+</head>
 
 <?php
 header("Content-Type:text/html;charset=gbk");
