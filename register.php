@@ -16,6 +16,7 @@
 <body>
 
 <?php
+header("Content-Type:text/html;charset=gbk");
 session_start();
 // 定义变量并默认设置为空值
 $feedback = $usernameErr = $passwordErr = $repeatPasswordErr = $name = "";
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 			$feedback = "操作失败: " . $conn->connect_error;
 		} else {
 			$feedback = addUser($conn, $username, $password, $name);
-			header("refresh:1;url=frame1.php");
+			header("refresh:1;url=newUser.php");
 		}
 	}
 }
@@ -59,8 +60,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 <!-- header start -->
 <div class="header">
-<div class="toplinks"><span>[<a href="register.php">注册</a>][<a
-	href="login.php">登录</a>]</span></div>
+<div class="toplinks" style="color:white"><span>[<a style="color:white" href="register.php">注册</a>][<a
+	style="color:white" href="login.php">登录</a>]</span></div>
 
 <h1><img src="images/logo_title.png" alt="Contract Management System" /></h1>
 </div>
