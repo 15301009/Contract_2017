@@ -50,6 +50,18 @@ if (!function_exists('isUserExist')) {
 	}
 }
 
+if (!function_exists('isRoleExist')) {
+	function isRoleExist($conn, $rolename) {
+		$sql = "SELECT * FROM `role` WHERE rolename = '".$rolename."'";
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+}
+
 if (!function_exists('isPasswordCorrect')) {
 	function isPasswordCorrect($conn, $name, $password) {
 		$sql = "SELECT password FROM user WHERE username = '".$name."'";

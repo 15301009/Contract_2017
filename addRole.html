@@ -1,97 +1,124 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Add Role</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Add Role</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
 
-	<body>
-		<div class="mtitle">
-			Add role
-		</div>
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+<script>
+function clearRole() {
+	$("#name").val("");
+	$("#description").val("");
+    for (i=0;i<30;i++ ) {
+		$("#"+(i+1)).prop("checked", false);
+	}
+}
+
+function insertRole(role, des, func) {
+	$.post("queryRole.php",{
+		rolename: role,
+		description: des,
+		function: func,
+		sql:"insert"
+	},function(data,status){
+		alert(data);
+		clearRole();
+	});
+}
+
+$(document).ready(function() {
+	$("#reset").bind("click",function() {
+		clearRole();
+	});
+	$("#submit").bind("click",function() {
+		var str = "";
+		$('input:checkbox[name=check]:checked').each(function(i){
+			if(0==i){
+				str = $(this).val();
+			}else{
+				str += (","+$(this).val());
+			}
+		});
+		insertRole($("#name").val(), $("#description").val(), str);
+	});
+});
+	
+	
+</script>
+
+<div class="mtitle">添加角色</div>
+<br />
+
+<br />
+<form>
+<table class="update" style="width: 700px;">
+	<tr height="28">
+		<td width="100">角色名</td>
+		<td><input id="name" type="text" name="name" value="" /></td>
+	</tr>
+	<tr height="28">
+		<td>描述</td>
+		<td><textarea id="description" rows="4" cols="40" name="content"
+			style="width: 400px; height: 100px;"></textarea></td>
+	</tr>
+	<tr>
+		<td>权限</td>
+		<td>
+		<div>合同管理<br />
+		<input id="1" type="checkbox" name="check" value="1" />起草合同 <input id="2"
+			type="checkbox" name="check" value="2" />编辑合同 <input id="3" type="checkbox" name="check"
+			value="3" />查询合同 <input id="4" type="checkbox" name="check" value="4" />删除合同 <br />
 		<br />
-		
-		<div style="font-size:18px;color:green;width:500px;text-align:center;">
-			Add successed!			
-		</div>
-
+		进度管理<br />
+		<input id="5" type="checkbox" name="check" value="5" />会签 <input id="6"
+			type="checkbox" name="check" value="6" />审批 <input id="7" type="checkbox" name="check"
+			value="7" />签订 <br />
+		<input id="8" type="checkbox" name="check" value="8" />指定会签人 <input id="9"
+			type="checkbox" name="check" value="9" />指定审批人 <input id="10" type="checkbox" name="check"
+			value="10" />指定签订人 <br />
+		<input id="11" type="checkbox" name="check" value="11" />查询进度 <br />
 		<br />
-		<form>
-			<table class="update" style="width:700px;">
-				<tr height="28">
-					<td width="100">Role name:</td>
-					<td><input type="text" name="name" /></td>
-				</tr>
-				<tr height="28">
-					<td>Description：</td>
-					<td>
-						<textarea rows="4" cols="40" name="content" style="width:400px;height:100px;"></textarea>
-					</td>
-				</tr>
-				<tr>
-					<td>Configure permission:</td>	
-					<td>
-						<div>
-							Contract Management:<br />
-							<input name="" type="checkbox" value="1" />Draf Contract
-							<input name="" type="checkbox" value="2" />Edit Contract
-							<input name="" type="checkbox" value="3" />Query Contract
-							<input name="" type="checkbox" value="4" />Delete Contract
-							<br /><br />
-							Process Management:<br />
-							<input name="" type="checkbox" value="5" />Cuntersign
-							<input name="" type="checkbox" value="6" />Approve
-							<input name="" type="checkbox" value="7" />Sign
-							<br />
-							<input name="" type="checkbox" value="8" />Assign countersign
-							<input name="" type="checkbox" value="9" />Assign Approval
-							<input name="" type="checkbox" value="10" />Assign Sign
-							<br />
-							<input name="" type="checkbox" value="11" />Query Process
-							<br /><br />
-							User Management:<br />
-							<input name="" type="checkbox" value="12" />Add User
-							<input name="" type="checkbox" value="13" />Edit User
-							<input name="" type="checkbox" value="14" />Query User
-							<input name="" type="checkbox" value="15" />Delete User
-							<br /><br />
-							Role Management:<br />
-							<input name="" type="checkbox" value="16" />Add Role
-							<input name="" type="checkbox" value="17" />Edit Role
-							<input name="" type="checkbox" value="18" />Query Role
-							<input name="" type="checkbox" value="19" />Delete Role
-							<br /><br />
-							Function Operation:<br />
-							<input name="" type="checkbox" value="20" />Add Function
-							<input name="" type="checkbox" value="21" />Edit Function
-							<input name="" type="checkbox" value="22" />Query Function
-							<input name="" type="checkbox" value="23" />Delete Function
-							<br /><br />
-							Authorize:<br />
-							<input name="" type="checkbox" value="24" />Configure permission
-							<br /><br />
-							Customer Management:<br />
-							<input name="" type="checkbox" value="25" />Add Customer
-							<input name="" type="checkbox" value="26" />Edit Customer
-							<input name="" type="checkbox" value="27" />Query Customer
-							<input name="" type="checkbox" value="28" />Delete Customer
-							<br /><br />
-							System Log:<br />
-							<input name="" type="checkbox" value="29" />Query Log
-							<input name="" type="checkbox" value="30" />Delete Log
-						</div>
-					</td>
-				</tr>
+		用户管理<br />
+		<input id="12" type="checkbox" name="check" value="12" />添加用户 <input id="13"
+			type="checkbox" name="check" value="13" />编辑用户 <input id="14" type="checkbox" name="check"
+			value="14" />查询用户 <input id="15" type="checkbox" name="check" value="15" />删除用户 <br />
+		<br />
+		角色管理<br />
+		<input id="16" type="checkbox" name="check" value="16" />添加角色 <input id="17"
+			type="checkbox" name="check" value="17" />编辑角色 <input id="18" type="checkbox" name="check"
+			value="18" />查询角色 <input id="19" type="checkbox" name="check" value="19" />删除角色 <br />
+		<br />
+		功能管理<br />
+		<input id="20" type="checkbox" name="check" value="20" />添加功能 <input id="21"
+			type="checkbox" name="check" value="21" />编辑功能 <input id="22" type="checkbox" name="check"
+			value="22" />查询功能 <input id="23" type="checkbox" name="check" value="23" />删除功能 <br />
+		<br />
+		赋予权限<br />
+		<input id="24" type="checkbox" name="check" value="24" />配置权限 <br />
+		<br />
+		客户管理<br />
+		<input id="25" type="checkbox" name="check" value="25" />添加客户 <input id="26"
+			type="checkbox" name="check" value="26" />编辑客户 <input id="27" type="checkbox" name="check"
+			value="27" />查询客户 <input id="28" type="checkbox" name="check" value="28" />删除客户 <br />
+		<br />
+		系统日志<br />
+		<input id="29" type="checkbox" name="check" value="29" />查询日志 <input id="30"
+			type="checkbox" name="check" value="30" />删除日志</div>
+		</td>
+	</tr>
 
-				<tr height="28">
-					<td align="center" colspan="2">
-						<input type="submit" value="Submit" class="button"> &nbsp; &nbsp; &nbsp;
-						<input type="reset" value="Reset" class="button">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</body>
+	<tr height="28">
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp;<input id="reset" type="button"
+			 value="重置" class="button"> </td>
+	</tr>
+</table>
+</form>
+</body>
 </html>

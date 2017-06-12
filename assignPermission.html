@@ -1,42 +1,91 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Configure Permission</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-		type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Configure Permission</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-	<body>
-		<div class="mtitle">
-			Configure permission
-		</div>
-		<br />
-		<form>
-			<table class="update" style="width:500px;">
-				<tr height="28">
-					<td width="180px">
-						User name:
-					</td>
-					<td>jack</td>
-				</tr>
-				<tr>
-					<td>Configure permission:</td> 
-					<td>
-						<input name="" type="checkbox" value="1" />admin
-						<br />
-						<input name="" type="checkbox" value="2" checked/>operator
-					</td>
-				</tr>
+<body>
 
-				<tr height="28">
-					<td align="center" colspan="2">
-						<input type="submit" value="Submit" class="button">
-						&nbsp; &nbsp; &nbsp;
-						<input type="reset" value="Reset" class="button">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</body>
+<script>
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("username");
+
+function originUserRight() {
+	$.post("queryRight.php",{
+		username:param,
+		sql: "select"
+	},function(data,status){
+		var res=eval(data);
+        $("<td>").appendTo("#username").text(res[0].username);
+        var role = res[0].rolename;
+        $.post("queryRole.php",{
+    		username:"",
+    		sql: "select"
+    	},function(data,status) {
+    		var res1=eval(data);
+            for(var i=0;i<res1.length;i++){
+            	var label = $("<label>").appendTo("#right").text(res1[i].rolename);
+            	var input = $("<input>").appendTo(label).attr("type", "radio");
+            	input.val(res1[i].rolename);
+            	input.attr("name", "rights");
+            	$("<br />").appendTo("#right");
+            	$("input:radio[value="+ role +"]").eq(0).attr("checked",true);
+            }
+    	});
+	});
+}
+
+$(document).ready(function() {
+	originUserRight();
+
+	$("#reset").bind("click",function() {
+		originUserRight();
+	});
+	$("#submit").bind("click",function() {
+		var str = "";
+		$('input:radio[name=rights]:checked').each(function(i){
+			if(0==i){
+				str = $(this).val();
+			}
+		});
+		$.post("queryRight.php",{
+			username: param,
+			rolename: str,
+			sql:"update"
+		},function(data,status){
+			alert(data);
+		});
+	});
+});
+</script>
+
+<div class="mtitle">授权</div>
+<br />
+<form>
+<table class="update" style="width: 500px;">
+	<tr id="username" height="28">
+		<td width="180px">用户名：</td>
+	</tr>
+	<tr id="right">
+		<td>确认权限：</td>
+
+	</tr>
+
+	<tr height="28">
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp; <input id="reset"
+			type="button" value="重置" class="button"></td>
+	</tr>
+</table>
+</form>
+</body>
 </html>
