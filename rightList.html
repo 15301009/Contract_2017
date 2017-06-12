@@ -1,98 +1,61 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-		<title>用户权限列表</title>
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<title>用户权限列表</title>
 
-	<body>
-		<div class="mtitle">
-			用户权限列表
-		</div>
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-		<div class="search">
-			<form>
-				Search user:
-				<input value="Enter search conditions.." />
-				&nbsp;&nbsp;
-				<input type="submit" value="Search" class="search-submit" />
-				<br />
-			</form>
-		</div>
+<body>
 
-		<div class="list">
-			<table>
-				<tr>
-					<th>
-						用户名
-					</th>
-					<th class="th2">
-						角色名
-					</th>
-					<th class="th2">
-						操作
-					</th>
-				</tr>
-			<tr>
-				<td class="tdname">
-					admin
-				</td>
-				<td>
-					admin
-				</td>
-				<td>
-					<a href="assignPermission.htm">
-						<img src="images/cog_edit.png"  alt="Authorize" />
-						Authorize
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<td class="tdname">
-					jack
-				</td>
-				<td>
-					operator
-				</td>
-				<td>
-					<a href="assignPermission.htm">
-						<img src="images/cog_edit.png"  alt="Authorize" />
-						Authorize
-					</a>
-				</td>
-			</tr>
-			<tr>
-				<td class="tdname">
-					lily
-				</td>
-				<td>
-					
-				</td>
-				<td>
-					<a href="assignPermission.htm">
-						<img src="images/cog_edit.png"  alt="Authorize" />
-						Authorize
-					</a>
-				</td>
-			</tr>
-			
-			<tr>
-				<td colspan="3"> </td>
-			</tr>
-		  </table>
-		</div>
+<script>
+$(document).ready(function() {
+	$.post("queryRight.php",{
+		username:"",
+		sql: "select"
+	},function(data,status){
+		res=eval(data);
+        for(var i=0;i<res.length;i++){
+        	var tr = $("<tr>").appendTo("#rightList"); //动态创建每一列，并往里面添加内容 
+    		$("<td>").appendTo(tr).text(res[i].username).css("text-align", "center");  
+    		$("<td>").appendTo(tr).text(res[i].rolename).css("text-align", "center");
+    		var td = $("<td>").appendTo(tr);
+    		var t = $("<a>").appendTo(td);
+    		t.attr("href", "assignPermission.html?username=" + res[i].username);
+    		t.text("授权");
+    		t.prepend("<img src='images/cog_edit.png'>");                   
+        }
+	});
+});
+</script>
 
-		<div align="right" class="pagelist">					
-			<a href="#"><img src="images/page/first.png"  alt="" /></a> &nbsp;
-			<a href="#"><img src="images/page/pre.png"  alt="" /></a>&nbsp;
-			<a href="#"><img src="images/page/next.png"  alt="" /></a>&nbsp;
-			<a href="#"><img src="images/page/last.png"  alt="" /></a>&nbsp;
-					
-			<span class="pageinfo">
-				Total&nbsp;<strong>2</strong>&nbsp;pages&nbsp;<strong>13</strong>&nbsp;records
-			</span>		
-		</div>
-	</body>
+<div class="mtitle">用户权限列表</div>
+
+<div class="list">
+<table id="rightList">
+	<tr>
+		<th style="width: 150px;">用户名</th>
+		<th style="width: 150px;">角色名</th>
+		<th style="width: 50px;">操作</th>
+	</tr>
+	
+
+	<tr>
+		<td colspan="3"></td>
+	</tr>
+</table>
+</div>
+
+<div align="right" class="pagelist"><a href="#"><img
+	src="images/page/first.png" alt="" /></a> &nbsp; <a href="#"><img
+	src="images/page/pre.png" alt="" /></a>&nbsp; <a href="#"><img
+	src="images/page/next.png" alt="" /></a>&nbsp; <a href="#"><img
+	src="images/page/last.png" alt="" /></a>&nbsp; <span class="pageinfo">
+Total&nbsp;<strong>2</strong>&nbsp;pages&nbsp;<strong>13</strong>&nbsp;records
+</span></div>
+</body>
 </html>

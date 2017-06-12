@@ -7,6 +7,8 @@ $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 $name = isset($_POST['rolename']) ? htmlspecialchars($_POST['rolename']) : "";
 $description = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : "";
 $function = isset($_POST['function']) ? htmlspecialchars($_POST['function']) : "";
+$rolename = isset($_POST['rolename']) ? htmlspecialchars($_POST['rolename']) : "";
+
 $s = isset($_POST['sql']) ? htmlspecialchars($_POST['sql']) : "";
 
 if ($s == "select" && $name ==  "") {
@@ -34,12 +36,27 @@ else if ($s == "select" && $name != ""){
 	echo $json;
 } else if($s == "update" && $name != "") {
 	$sql = "UPDATE `role` SET `function` = '".$function."', `description` = '".$description."' WHERE `rolename` = '".$name."'";
-	
+
 	if ($conn->query($sql) == TRUE) {
 		echo "修改成功";
 	}
 	else {
 		echo "修改失败";
+	}
+} else if ($s == "insert" && $rolename != "") {
+	require 'db/MySqlConn.php';
+	if (!isRoleExist($conn, $rolename)) {
+		$sql = "INSERT INTO `role`(`rolename`, `description`, `function`) VALUES('".$rolename."','".$description."' ,'".$function."' ,)";
+
+		if ($conn->query($sql) == TRUE) {
+			echo "修改成功";
+		}
+		else {
+			echo "修改失败";
+		}
+	}
+	else {
+		echo "角色名已存在！";
 	}
 }
 ?>
