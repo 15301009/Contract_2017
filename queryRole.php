@@ -7,7 +7,6 @@ $conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
 $name = isset($_POST['rolename']) ? htmlspecialchars($_POST['rolename']) : "";
 $description = isset($_POST['description']) ? htmlspecialchars($_POST['description']) : "";
 $function = isset($_POST['function']) ? htmlspecialchars($_POST['function']) : "";
-$rolename = isset($_POST['rolename']) ? htmlspecialchars($_POST['rolename']) : "";
 
 $s = isset($_POST['sql']) ? htmlspecialchars($_POST['sql']) : "";
 
@@ -43,20 +42,21 @@ else if ($s == "select" && $name != ""){
 	else {
 		echo "修改失败";
 	}
-} else if ($s == "insert" && $rolename != "") {
-	require 'db/MySqlConn.php';
-	if (!isRoleExist($conn, $rolename)) {
-		$sql = "INSERT INTO `role`(`rolename`, `description`, `function`) VALUES('".$rolename."','".$description."' ,'".$function."' ,)";
+} else if ($s == "insert" && $name != "") {
+	require_once 'formcheck.php';
+	$err = validName($name);
+	if ($err == "") {
+		isRoleExist($conn, $name) ? "角色名已存在!" : "";
+	}
+	if ($err == "") {
+		$stmt = $conn->prepare("INSERT INTO role (rolename, description, function) VALUES (?, ?, ?)");
+		$stmt->bind_param("sss", $name, $description, $function);
 
-		if ($conn->query($sql) == TRUE) {
-			echo "修改成功";
-		}
-		else {
-			echo "修改失败";
-		}
+		$stmt->execute();
+		echo "插入成功";
 	}
 	else {
-		echo "角色名已存在！";
+		echo $err;
 	}
 }
 ?>

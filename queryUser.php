@@ -7,6 +7,7 @@ $username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : "
 $name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : "";
 $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : "";
 $s = isset($_POST['sql']) ? htmlspecialchars($_POST['sql']) : "";
+
 if ($s == "select" && $username == "") {
 	$sql = "SELECT * FROM `user`";
 	$result = $conn->query($sql);
@@ -41,6 +42,28 @@ if ($s == "select" && $username == "") {
 		else {
 			echo "修改失败";
 		}
+	}
+} else if($s == "insert" && $username != "") {
+	require_once 'formcheck.php';
+	$err = validName($username);
+	if ($err == "") {
+		isUserExist($conn, $username) ? "角色名已存在!" : "";
+	}
+	if ($err == "") {
+		$err = validName($name);
+	}
+	if ($err == "") {
+		$err = validPassword($password);
+	}
+	if ($err == "") {
+		$stmt = $conn->prepare("INSERT INTO user (username, name, password) VALUES (?, ?, ?)");
+		$stmt->bind_param("sss", $username, $name, $password);
+
+		$stmt->execute();
+		echo "插入成功";
+	}
+	else {
+		echo $err;
 	}
 }
 ?>

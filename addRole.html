@@ -28,6 +28,7 @@ function insertRole(role, des, func) {
 		sql:"insert"
 	},function(data,status){
 		alert(data);
+		clearRole();
 	});
 }
 
@@ -44,7 +45,7 @@ $(document).ready(function() {
 				str += (","+$(this).val());
 			}
 		});
-		modifyRole($("#name").val(), $("#description").val(), str);
+		insertRole($("#name").val(), $("#description").val(), str);
 	});
 });
 	
@@ -113,8 +114,9 @@ $(document).ready(function() {
 	</tr>
 
 	<tr height="28">
-		<td align="center" colspan="2"><input type="button"
-			value="提交" class="button"> &nbsp; &nbsp; &nbsp; </td>
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp;<input id="reset" type="button"
+			 value="重置" class="button"> </td>
 	</tr>
 </table>
 </form>

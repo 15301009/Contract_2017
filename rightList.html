@@ -20,8 +20,8 @@ $(document).ready(function() {
 	},function(data,status){
 		res=eval(data);
         for(var i=0;i<res.length;i++){
-        	var tr = $("<tr>").appendTo("#rightList"); //动态创建每一列，并往里面添加内容 
-    		$("<td>").appendTo(tr).text(res[i].username).css("text-align", "center");  
+        	var tr = $("<tr>").appendTo("#rightList");
+    		$("<td>").appendTo(tr).text(res[i].username).css("text-align", "center");
     		$("<td>").appendTo(tr).text(res[i].rolename).css("text-align", "center");
     		var td = $("<td>").appendTo(tr);
     		var t = $("<a>").appendTo(td);
