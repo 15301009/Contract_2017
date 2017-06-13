@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Role list</title>
+<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>User list</title>
 <link href="css/style.css" rel="stylesheet" media="screen"
 	type="text/css" />
 <script
@@ -13,40 +13,40 @@
 
 <script>
 $(document).ready(function() {
-	$.post("queryRole.php",{
-		rolename:"",
+	$.post("queryUser.php",{
+		username:"",
 		sql: "select"
 	},function(data,status){
-		res=eval(data);
+		res=eval(data);  
         for(var i=0;i<res.length;i++){
-        	var tr = $("<tr>").appendTo("#roleList");
-    		$("<td>").appendTo(tr).text(res[i].rolename).css("text-align", "center");  
-    		$("<td>").appendTo(tr).text(res[i].description);
+        	var tr = $("<tr>").appendTo("#userList"); //¶¯Ì¬´´½¨Ã¿Ò»ÁĞ£¬²¢ÍùÀïÃæÌí¼ÓÄÚÈİ 
+    		$("<td>").appendTo(tr).text(res[i].username).css("text-align", "center");  
+    		$("<td>").appendTo(tr).text(res[i].name);
     		$("<td>").appendTo(tr).text(res[i].crttime);
     		var td = $("<td>").appendTo(tr);
     		var t = $("<a>").appendTo(td);
-    		t.attr("href", "editRole.html?rolename=" + res[i].rolename);
-    		t.text("ç¼–è¾‘");
+    		t.attr("href", "editUser.html?username=" + res[i].username);
+    		t.text("±à¼­");
     		t.prepend("<img src='images/icon-edit.png'>");                   
         }
 	});
 });
 </script>
 
-<div class="mtitle">è§’è‰²æƒé™</div>
+<div class="mtitle">ÓÃ»§¹ÜÀí</div>
 <br />
 
 <div style="text-align: right; width: 480px;"><a
-	href="addRole.html"> <img src="images/add.png" alt="Add Role" />æ·»åŠ 
+	href="addUser.html"> <img src="images/add.png" alt="Add User" />Ìí¼Ó
 </a></div>
 
 <div class="list">
-<table id="roleList">
+<table id="userList">
 	<tr>
-		<th style="width: 100px;">è§’è‰²å</th>
-		<th>æè¿°</th>
-		<th style="width: 100px;">å»ºç«‹æ—¶é—´</th>
-		<th style="width: 150px;">æ“ä½œ</th>
+		<th style="width: 100px;">ÓÃ»§Ãû</th>
+		<th style="width: 200px;">ĞÕÃû</th>
+		<th>½¨Á¢Ê±¼ä</th>
+		<th style="width: 150px;">²Ù×÷</th>
 	</tr>
 
 	<tr>
@@ -60,6 +60,6 @@ $(document).ready(function() {
 	src="images/page/pre.png" alt="" /></a>&nbsp; <a href="#"><img
 	src="images/page/next.png" alt="" /></a>&nbsp; <a href="#"><img
 	src="images/page/last.png" alt="" /></a>&nbsp; <span class="pageinfo">
-æ€»è®¡&nbsp;<strong>2</strong>&nbsp;é¡µ&nbsp;<strong>13</strong>&nbsp;æ¡ </span></div>
+×Ü¼Æ&nbsp;<strong>2</strong>&nbsp;Ò³&nbsp;<strong>13</strong>&nbsp;Ìõ </span></div>
 </body>
 </html>
