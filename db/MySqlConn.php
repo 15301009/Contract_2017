@@ -4,6 +4,24 @@ $db_username = 'root';
 $db_password = '15301002';
 $db_database = 'contractdb';
 
+if (!function_exists('getNewContractId')) {
+	function getNewContractId($conn) {
+		$sql = "SELECT COUNT(*) FROM contract";
+		$result = $conn->query($sql);
+		
+		$row = mysqli_fetch_array($result);
+		if ($row[0] < 10) {
+			return "Con".date("Ymd")."000".$row[0];
+		} else if ($row[0] >= 10 && $row[0] < 100) {
+			return "Con".date("Ymd")."00".$row[0];
+		} else if ($row[0] >= 100 && $row[0] < 1000) {
+			return "Con".date("Ymd")."0".$row[0];
+		} else {
+			return "Cus".date("Ymd").$row[0];
+		}
+	}
+}
+
 if (!function_exists('isUserExist')) {
 	function isUserExist($conn, $userName) {
 		$sql = "SELECT * FROM user WHERE username = '".$userName."'";

@@ -40,8 +40,7 @@ $(document).ready(function() {
 		if ($("#pass2").val() == $("#pass1").val()) {
 			$(".error").text("");
 			insertUser($("#username").val(), $("#name").val(), $("#pass2").val());
-		}
-		else {
+		} else {
 			$(".error").text("两次密码不一致！").css("color", "red");
 			$("#pass2").val("");
 		}

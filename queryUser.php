@@ -7,8 +7,18 @@ $username = isset($_POST['username']) ? htmlspecialchars($_POST['username']) : "
 $name = isset($_POST['name']) ? htmlspecialchars($_POST['name']) : "";
 $password = isset($_POST['password']) ? htmlspecialchars($_POST['password']) : "";
 $s = isset($_POST['sql']) ? htmlspecialchars($_POST['sql']) : "";
-
-if ($s == "select" && $username == "") {
+if ($s == "selectoperator") {
+	$sql = "SELECT username FROM `user` WHERE rolename = 'operator'";
+	$result = $conn->query($sql);
+	$data = array();
+	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()) {
+			$data[] = array('username' => $row["username"]);
+		}
+	}
+	$json=json_encode($data);
+	echo $json;
+} else if ($s == "select" && $username == "") {
 	$sql = "SELECT * FROM `user`";
 	$result = $conn->query($sql);
 	$data = array();

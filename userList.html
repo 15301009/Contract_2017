@@ -17,7 +17,7 @@ $(document).ready(function() {
 		username:"",
 		sql: "select"
 	},function(data,status){
-		res=eval(data);  
+		res=eval(data);
         for(var i=0;i<res.length;i++){
         	var tr = $("<tr>").appendTo("#userList"); //动态创建每一列，并往里面添加内容 
     		$("<td>").appendTo(tr).text(res[i].username).css("text-align", "center");  

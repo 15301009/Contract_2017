@@ -61,9 +61,9 @@ if ($s == "select" && $customername ==  "") {
 			} else if ($tel1 != "" && $tel2 != "") {
 				$stmt->bind_param("ssssssss", $customername, $address, $tel1, $tel2, $email, $bank, $account, $remark);
 			}
-
 			$stmt->execute();
-			echo "插入成功";
+			echo "添加客户成功";
+			$stmt->close();
 		}else {
 			echo $err;
 		}
