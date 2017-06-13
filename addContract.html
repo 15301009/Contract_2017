@@ -1,69 +1,124 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Draft contract</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Draft contract</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-	<body>
-		<div class="mtitle">
-			Draft Contract
-		</div>
-		<br />
-		<div style="font-size:18px;color:green;width:700px;text-align:center;">
-			Draft successed!			
-		</div>
+<body>
+<script>
+function clearCon() {
+	$("#connameErr").text("  *");
+	$("#beginErr").text("  *");
+	$("#endErr").text("  *");
+	$("#customerErr").text("  *");
+	$("#contentErr").text("  *");
+	
+	$("#contractname").val("");
+	$("#begindate").val("");
+	$("#enddate").val("");
+	$("#content").val("");
+	$("#customers").val("");
+}
 
-		<form>
-			<table class="update" style="width:700px;">
-				<tr height="28">
-					<td width="140px">Contract name:</td>
-					<td><input type="text" id="name" name="name" value="" /><font color="red">&nbsp;&nbsp;*</font>
-					</td>
-				</tr>
+function insertCon(conname, cus, begin, end, cont) {
+	$.post("queryContract.php",{
+		contractname: conname,
+		customername: cus,
+		begintime: begin,
+		endtime: end,
+		content: cont,
+		sql: "insert"
+	},function(data,status){
+		alert(data);
+		clearCon();
+	});
+}
+$(document).ready(function() {
+	$.post("queryCustomer.php",{
+		customername: "",
+		sql:"select"
+	},function(data,status){
+		res=eval(data);  
+        for(var i=0;i<res.length;i++){
+			var op = $("<option>").appendTo("#customers").val(res[i].customername);
+			op.text(res[i].customername);
+        }
+        $("#customers").val("");
+	});
+	$("#reset").bind("click",function() {
+		clearCon();
+	});
+	$("#submit").bind("click",function() {
+		if ($("#contractname").val() == "")
+			$("#connameErr").text("* 请输入合同名！");
+		else if ($("#begindate").val() == "")
+			$("#beginErr").text("* 请设置开始日期！");
+		else if ($("#enddate").val() == "")
+			$("#endErr").text("* 请设置结束日期！");
+		else if ($("#customers option:selected").val() == "")
+			$("#customerErr").text("* 请选择客户！");
+		else if ($("#content").val() == "")
+			$("#contentErr").text("* 请输入合同内容！");
+		else
+			insertCon($("#contractname").val(), $("#customers option:selected").val()
+					, $("#begindate").val(), $("#enddate").val(), $("#content").val());
+		
+	});
+});
+</script>
+<div class="mtitle">合同起草</div>
+<br />
 
-				<tr height="28">
-					<td>Customer:</td>
-					<td><input type="text" name="customer" value="" />
-					</td>
-				</tr>
-				<tr>
-					<td>Begin time:</td>	
-					<td><input type="text" id="beginTime" name="beginTime"/><font color="red">&nbsp;&nbsp;*Correct format:yyyy-mm-dd</font>
-					</td>
-				</tr>
-				<tr>
-					<td>End time:</td>	
-					<td><input type="text" id="endTime" name="endTime"/><font color="red">&nbsp;&nbsp;*Correct format:yyyy-mm-dd</font>
-					</td>
-				</tr>
-				<tr>
-					<td>Content:</td>	
-					<td><font color="red">&nbsp;&nbsp;*</font>
-					</td>
-				</tr>
+<form>
+<table class="update" style="width: 700px;">
+	<tr height="28">
+		<td width="140px">合同名：</td>
+		<td><input type="text" id="contractname" name="name" value="" />
+		<span id="connameErr" class="error" style="color: red;">&nbsp;&nbsp;*</span></td>
+	</tr>
 
-				<tr>
-					<td colspan="2">
-						<textarea rows="40" cols="100" name="content" style="width:680px;height:400px;">
-						
-						</textarea>
-					</td>
-				</tr>
-				<tr height="28">
-					<td>Attachment:</td>
-					<td><input type="file" /></td>
-				</tr>
-				<tr height="28">
-					<td align="center" colspan="2">
-						<input type="submit" value="Submit" class="button">
-						 &nbsp; &nbsp; &nbsp;
-						<input type="reset" value="Reset" class="button">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</body>
+	<tr height="28">
+		<td>客户名：</td>
+		<td><select id="customers">
+		</select><span id="customerErr" class="error" style="color: red;">&nbsp;&nbsp;*</span>
+		</td>
+	</tr>
+	<tr>
+		<td>开始时间：</td>
+		<td><input id="begindate" type="date" />
+		<span id="beginErr" class="error" style="color: red;">&nbsp;&nbsp;*</span>
+		</td>
+	</tr>
+	<tr>
+		<td>结束时间：</td>
+		<td><input id="enddate" type="date" />
+		<span id="endErr" class="error" style="color: red;">&nbsp;&nbsp;*</span>
+		</td>
+	</tr>
+	<tr>
+		<td>合同内容：</td>
+		<td><span id="contentErr" class="error" style="color: red;">&nbsp;&nbsp;*</span></td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><textarea id="content" rows="40" cols="100" name="content"
+			style="width: 680px; height: 400px;"></textarea></td>
+	</tr>
+	<tr height="28">
+		<td>附件：</td>
+		<td><input type="file" /></td>
+	</tr>
+	<tr height="28">
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp; <input
+			id="reset" type="button" value="重置" class="button"></td>
+	</tr>
+</table>
+</form>
+</body>
 </html>

@@ -38,7 +38,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 	if ($nameErr == "" && $passwordErr == "") {
 		$_SESSION['name'] = $name;
-		header("refresh:1;url=frame1.html");
+		require 'db/MySqlConn.php';
+		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
+
+		$sql = "SELECT rolename FROM user WHERE username = '".$name."'";
+		$result = $conn->query($sql);
+		$role;
+		if ($result->num_rows > 0) {
+			while($row = $result->fetch_assoc()) {
+				$role = $row["rolename"];
+			}
+		}
+		if ($role == "admin") {
+			header("refresh:1;url=frame1.html");
+		} else if($role == "operator"){
+			header("refresh:1;url=frame2.html");
+		} else if ($role == "") {
+			header("refresh:1;url=newUser.php");
+		}
 	}
 
 }
@@ -47,7 +64,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 <body>
 <!-- header start -->
 <div class="header">
-<div class="toplinks"><span> [<a href="login.php" target="_top">µÇÂ¼</a>][<a href="register.php">×¢²á</a>] </span></div>
+<div style="color:white" class="toplinks"><span> [<a style="color:white" href="login.php" target="_top">µÇÂ¼</a>][<a
+	style="color:white" href="register.php">×¢²á</a>] </span></div>
 
 <h1><img src="images/logo_title.png" alt="Contract Management System" /></h1>
 </div>

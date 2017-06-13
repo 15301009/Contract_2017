@@ -1,48 +1,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Contract details</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Contract details</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-	<body>
-		<div class="preview">
-		   <div class="viewbox">
-			<div class="title">
-					Labor Contract
-			</div>
-			<div class="info">
-				<small>Customer:</small>jaffson
-				<small>Drafter:</small>jack
-				<small>Begin time:</small>2013-12-20
-				<small>End time:</small>2015-12-20
-			</div>
-			<div class="content">	
-				...content		
-			</div>
-		</div>
+<body>
+<script>
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("contractId");
 
-		<div class="pfooter">
-				<ul>
-					<li>
-						<a target="_blank" href="#">Contract Management System</a>
-					</li>
-					<li>
-						｜
-					</li>
-					<li>
-						<a target="_blank" href="#">Help</a>
-					</li>
-				</ul>
+$(document).ready(function() {
+	$.post("queryContract.php",{
+		contractId: param,
+		sql: "select"
+	},function(data,status){
+		res=eval(data);
+        $("#customer").text("客户名："+res[0].customername);
+        $("#conname").text("合同名："+res[0].contractname);
+        $("#begindate").text("开始时间："+res[0].begintime);
+        $("#enddate").text("结束时间："+res[0].endtime);
+        $("#content").text("合同内容："+res[0].content);
+	});
+});
+</script>
+<div class="preview">
+<div class="viewbox">
+<div id="conname" class="title"></div>
+<div class="info">
+<small id="customer"></small>&nbsp;
+<small id="begindate"></small>&nbsp;
+<small id="enddate"></small>
+</div>
+<div id="content" class="content"></div>
+</div>
 
-				<p>
-					Copyright&nbsp;&copy;&nbsp;Ruanko COE&nbsp;
-					<a href="http://www.ruanko.com" title="www.ruanko.com" target="_blank"><strong>www.ruanko.com</strong>
-					</a>&nbsp;Copyright Reserved
-				</p>
-			</div>
-		</div>
-	</body>
+
+</div>
+</body>
 </html>
