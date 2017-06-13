@@ -1,53 +1,71 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Customer Detail</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Customer Detail</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-	<body>
-		<div class="mtitle">
-			Customer Detail
-		</div>	
-		<br />
-		<table class="update" style="width:500px;">
-				<tr height="28">
-					<td width="140px">Customer name:</td>
-					<td>jaffson</td>
-				</tr>
-				<tr height="28">
-					<td>Phone number:</td>
-					<td>11111111111</td>
-				</tr>
-				<tr height="28">
-					<td>Address:</td>
-					<td>China Hubei Wuhan</td>
-				</tr>
-				<tr height="28">
-					<td>Fax:</td>
-					<td>22222222</td>
-				</tr>
-				<tr height="28">
-					<td>Mailbox:</td>
-					<td>1234@qq.com</td>
-				</tr>
-				<tr height="28">
-					<td>Bank name:</td>
-					<td>Agricultural Bank of China </td>
-				</tr>
-				<tr height="28">
-					<td>Bank account:</td>
-					<td>622848 ****** </td>
-				</tr>
-				<tr>
-					<td>Remark:</td>
-					<td>
-						The traffic is not convenient
-					</td>
-				</tr>
-				
-			</table>
-	</body>
+<body>
+<script>
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("customername");
+
+$(document).ready(function() {
+	$.post("queryCustomer.php",{
+		customername:param,
+		sql: "select"
+	},function(data,status){
+		res=eval(data);
+        $("<td>").appendTo("#customername").text(res[0].customername);
+        $("<td>").appendTo("#address").text(res[0].address);
+        $("<td>").appendTo("#tel1").text(res[0].tel1);
+        $("<td>").appendTo("#tel2").text(res[0].tel2);
+        $("<td>").appendTo("#email").text(res[0].email);
+        $("<td>").appendTo("#bank").text(res[0].bank);
+        $("<td>").appendTo("#account").text(res[0].account);
+        var remark = $("<textarea>").appendTo("#remark").val(res[0].remark);
+        remark.attr({rows:"4", cols:"40", name:"content", style:"width:400px;height:100px;", disabled:"true"});
+	});
+});
+</script>
+
+<div class="mtitle">客户信息</div>
+<br />
+<table class="update" style="width: 500px;">
+	<tr id="customername" height="28">
+		<td width="140px">客户名：</td>
+	</tr>
+	<tr id="address" height="28">
+		<td>地址：</td>
+	</tr>
+	<tr id="tel1" height="28">
+		<td>联系方式1：</td>
+	</tr>
+	<tr id="tel2" height="28">
+		<td>联系方式2：</td>
+	</tr>
+
+	<tr id="email" height="28">
+		<td>邮箱：</td>
+	</tr>
+	<tr id="bank" height="28">
+		<td>银行：</td>
+	</tr>
+	<tr id="account" height="28">
+		<td>银行账户：</td>
+	</tr>
+	<tr id="remark" height="28">
+		<td>备注：</td>
+	</tr>
+
+</table>
+</body>
 </html>

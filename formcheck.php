@@ -54,6 +54,26 @@ function validLoginName($name) {
 	}
 }
 
+function validCusName($name) {
+	$err = validName($name);
+	if ($err != "") {
+		return $err;
+	} else {
+		require 'db/MySqlConn.php';
+		$conn = new mysqli($db_hostname, $db_username, $db_password, $db_database);
+			
+		if ($conn->connect_error) {
+			die("连接失败: " . $conn->connect_error);
+		} else {
+			if (isCusExist($conn, $name)) {
+				return "客户名已存在！";
+			} else {
+				return "";
+			}
+		}
+	}
+}
+
 function validPassword($password) {
 	if (empty($password)) {
 		return "请输入密码";
@@ -85,6 +105,16 @@ function validLoginPassword($name, $password) {
 				return "密码错误！";
 			}
 		}
+	}
+}
+
+function validEmail($email) {
+	if (empty($email)) {
+		return "请输入邮箱";
+	} else if (!preg_match("/^([0-9A-Za-z\\-_\\.]+)@([0-9a-z]+\\.[a-z]{2,3}(\\.[a-z]{2})?)$/i",$email)) {
+		return "邮箱格式错误！";
+	} else {
+		return "";
 	}
 }
 
