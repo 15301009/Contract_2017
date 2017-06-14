@@ -1,52 +1,53 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>List of contract</title>
 <link href="css/style.css" rel="stylesheet" media="screen"
 	type="text/css" />
-<title>List of countersigned contract</title>
+<!-- Use JavaScript script to open a new window display information when preview-->
 <script
 	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
 
 <body>
 <script>
-
 function preview(url) {
 	window.open(url,'Preview','toolbar=no,scrollbars=yes,width=720,height=560,top=50,left=100');
 }
+
 $(document).ready(function() {
 	$.post("queryState.php",{
-		sql: "select",
-		type: "Countersigned"
+		sql: "selectinfo"
 	},function(data,status){
 		res=eval(data);
         for(var i=0;i<res.length;i++){
         	var tr = $("<tr>").appendTo("#conList");
     		var id = $("<td>").appendTo(tr);  
-    		var a = $("<a>").appendTo(id);
-    		a.attr("href", "javascript:preview('contractDetail.html?contractId="+res[i].contractId+"');");
-    		
+    		var a = $("<a>").appendTo(id).attr("href", "javascript:preview('contractDetail.html?contractId="+res[i].contractId+"');");
     		a.text(res[i].contractId);
     		$("<td>").appendTo(tr).text(res[i].contractname);
     		$("<td>").appendTo(tr).text(res[i].drafttime);
+    		$("<td>").appendTo(tr).text(res[i].type);
+    		$("<td>").appendTo(tr).text(res[i].asign == "1" ? "æ˜¯" : "å¦");
         }
 	});
 });
 </script>
-<div class="mtitle">ÒÑ»áÇ©ºÏÍ¬</div>
+<div class="mtitle">åˆåŒåˆ—è¡¨</div>
+
 
 <div class="list">
 <table id="conList">
 	<tr>
-		<th>ºÏÍ¬±àºÅ</th>
-		<th>ºÏÍ¬Ãû</th>
-		<th class="th1">Æğ²İÊ±¼ä</th>
+		<th>åˆåŒç¼–å·</th>
+		<th>åˆåŒå</th>
+		<th class="th1">èµ·è‰æ—¶é—´</th>
+		<th class="th1">å½“å‰çŠ¶æ€</th>
+		<th class="th1">æ˜¯å¦å·²åˆ†é…æ“ä½œ</th>
 	</tr>
-
-	<tr>
-		<td colspan="3"></td>
-	</tr>
+	
 </table>
 </div>
 

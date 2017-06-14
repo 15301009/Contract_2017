@@ -15,10 +15,14 @@ $s = isset($_POST['sql']) ? htmlspecialchars($_POST['sql']) : "";
 
 
 if ($s == "insert") {
+	session_start();
+	$name = $_SESSION['name'];
 	$contractId = getNewContractId($conn);
-	$stmt = $conn->prepare("INSERT INTO contract (contractId, customername, contractname, begintime, endtime, content) VALUES (?, ?, ?, ?, ?, ?)");
-	$stmt->bind_param("ssssss", $contractId, $customername, $contractname, $begintime, $endtime, $content);
+	$stmt = $conn->prepare("INSERT INTO contract (contractId, customername, contractname, begintime, endtime, content, draftuser) VALUES (?, ?, ?, ?, ?, ?, ?)");
+	$stmt->bind_param("sssssss", $contractId, $customername, $contractname, $begintime, $endtime, $content, $name);
 	$stmt->execute();
+	$sql = "INSERT INTO contract_state(contractId, type) VALUES('".$contractId."', 'Draft')";
+	$result = $conn->query($sql);
 	echo "起草合同成功";
 	$stmt->close();
 }  else if ($s == "select" && $contractId != "") {
