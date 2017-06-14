@@ -31,7 +31,7 @@ $(document).ready(function() {
     		$("<td>").appendTo(tr).text(res[i].drafttime);
     		var td = $("<td>").appendTo(tr);
     		var t = $("<a>").appendTo(td);
-    		t.attr("href", "assignOperator.html?contractId=" + res[i].contractId);
+    		t.attr("href", "asignOperator.html?contractId=" + res[i].contractId);
     		t.text("授权");
     		t.prepend("<img src='images/cog_edit.png'>");                   
         }

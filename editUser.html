@@ -19,7 +19,7 @@ function getUrlParam(name) {
 var param = getUrlParam("username");
 function originUser() {
 	$.post("queryUser.php",{
-		username:param,
+		username: param,
 		sql: "select"
 	},function(data,status){
 		res=eval(data);

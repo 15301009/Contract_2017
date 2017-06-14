@@ -25,7 +25,7 @@ $(document).ready(function() {
     		$("<td>").appendTo(tr).text(res[i].rolename).css("text-align", "center");
     		var td = $("<td>").appendTo(tr);
     		var t = $("<a>").appendTo(td);
-    		t.attr("href", "assignPermission.html?username=" + res[i].username);
+    		t.attr("href", "asignPermission.html?username=" + res[i].username);
     		t.text("授权");
     		t.prepend("<img src='images/cog_edit.png'>");                   
         }

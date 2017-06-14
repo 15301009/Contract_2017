@@ -67,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 <div style="color:white" class="toplinks"><span> [<a style="color:white" href="login.php" target="_top">µÇÂ¼</a>][<a
 	style="color:white" href="register.php">×¢²á</a>] </span></div>
 
-<h1><img src="images/logo_title.png" alt="Contract Management System" /></h1>
+
 </div>
 <!-- header end -->
 

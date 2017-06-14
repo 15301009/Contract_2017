@@ -1,0 +1,64 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>会签合同</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+<script>
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("contractId");
+/*function setOpinion(conid, opini) {
+	$.post("queryProcess.php",{
+		sql: "update",
+		type: "Countersigned",
+		opinion: opini,
+		contractId: conid
+	},function(data,status){
+        alert(data == 1 ? "操作成功" : "操作失败");
+	});
+}*/
+$(document).ready(function() {
+	$.post("queryContract.php",{
+		contractId: param,
+		sql: "select"
+	},function(data,status){
+		res=eval(data);
+        $("#contractname").text(res[0].contractname);
+	});
+	//$("#submit").bind("click",function() {
+		//setOpinion(param, $("#opinion").val());
+	//});
+});
+</script>
+<div class="mtitle">会签合同</div>
+<br />
+<form>
+<table class="update" style="width: 680px;">
+	<tr height="28">
+		<td width="180px">合同名：</td>
+		<td id="contractname" ></td>
+	</tr >
+	<tr>
+		<td>会签意见：</td>
+		<td><textarea id="opinion" rows="10" cols="40" name="content"
+			style="width: 400px; height: 100px;"></textarea></td>
+	</tr>
+	<tr height="28">
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp; <input
+			id="reset" type="button" value="重置" class="button"></td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

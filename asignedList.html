@@ -1,40 +1,39 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=gbk" />
+<title>List of assigned contract</title>
 <link href="css/style.css" rel="stylesheet" media="screen"
 	type="text/css" />
-<title>List of countersigned contract</title>
+<!-- Use JavaScript script to open a new window display information when preview-->
 <script
 	src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+
 </head>
 
 <body>
 <script>
-
 function preview(url) {
 	window.open(url,'Preview','toolbar=no,scrollbars=yes,width=720,height=560,top=50,left=100');
 }
+
 $(document).ready(function() {
-	$.post("queryState.php",{
-		sql: "select",
-		type: "Countersigned"
+	$.post("queryProcess.php",{
+		sql: "asigned"
 	},function(data,status){
 		res=eval(data);
         for(var i=0;i<res.length;i++){
-        	var tr = $("<tr>").appendTo("#conList");
+        	var tr = $("<tr>").appendTo("#conList"); //动态创建每一列，并往里面添加内容 
     		var id = $("<td>").appendTo(tr);  
-    		var a = $("<a>").appendTo(id);
-    		a.attr("href", "javascript:preview('contractDetail.html?contractId="+res[i].contractId+"');");
-    		
+    		var a = $("<a>").appendTo(id).attr("href", "javascript:preview('contractDetail.html?contractId="+res[i].contractId+"');");
     		a.text(res[i].contractId);
     		$("<td>").appendTo(tr).text(res[i].contractname);
-    		$("<td>").appendTo(tr).text(res[i].drafttime);
+    		$("<td>").appendTo(tr).text(res[i].drafttime);                  
         }
 	});
 });
 </script>
-<div class="mtitle">已会签合同</div>
+<div class="mtitle">已分配合同</div>
 
 <div class="list">
 <table id="conList">
@@ -43,12 +42,8 @@ $(document).ready(function() {
 		<th>合同名</th>
 		<th class="th1">起草时间</th>
 	</tr>
-
-	<tr>
-		<td colspan="3"></td>
-	</tr>
+	
 </table>
 </div>
-
 </body>
 </html>
