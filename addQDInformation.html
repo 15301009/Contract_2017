@@ -1,41 +1,74 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>签订合同</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>签订合同</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-	<body>
-		<div class="mtitle">
-			Sign contract
-		</div>
-		<br />
-		<form>
-			<table class="update" style="width:600px;">	
-				<tr height="28">
-					<td>Contract name:</td>
-					<td>Labor contract</td>
-				</tr>
-				<tr height="28">
-					<td>Customer:</td>
-					<td>Madison</td>
-				</tr>
-				<tr>
-					<td>Signed information:</td>	
-					<td>
-						<textarea rows="10" cols="40" name="content" style="width:400px;height:100px;">...information:
-						</textarea>
-					</td>
-				</tr>
-				<tr height="28">
-					<td align="center" colspan="2">
-						<input type="submit" value="Submit" class="button"> &nbsp; &nbsp; &nbsp;
-						<input type="reset" value="Reset" class="button">
-					</td>
-				</tr>
-			</table>
-		</form>
-	</body>
+<body>
+<script>
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("contractId");
+function setOpinion(conid, opini) {
+	$.post("queryProcess.php",{
+		sql: "update",
+		type: "Sign",
+		opinion: opini,
+		contractId: conid,
+		state: "Completed"
+	},function(data,status){
+        alert(data == 1 ? "操作成功" : "操作失败");
+        window.location.href='toBeSigned.html';
+	});
+}
+$(document).ready(function() {
+	$.post("queryContract.php",{
+		contractId: param,
+		sql: "select"
+	},function(data,status){
+		res=eval(data);
+        $("#customer").text(res[0].customername);
+	});
+	$.post("queryProcess.php",{
+		sql: "selectuser"
+	},function(data,status){
+        $("#signname").text(data);
+	});
+	$("#submit").bind("click",function() {
+		setOpinion(param, $("#information").val());
+		
+	});
+});
+</script>
+<div class="mtitle">签订合同</div>
+<br />
+<form>
+<table class="update" style="width: 600px;">
+	<tr height="28">
+		<td>签订人：</td>
+		<td id="signname"></td>
+	</tr>
+	<tr height="28">
+		<td>客户：</td>
+		<td id="customer"></td>
+	</tr>
+	<tr>
+		<td>签定信息：</td>
+		<td><textarea id="information" rows="10" cols="40" name="content"
+			style="width: 400px; height: 100px;"></textarea></td>
+	</tr>
+	<tr height="28">
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp; </td>
+	</tr>
+</table>
+</form>
+</body>
 </html>

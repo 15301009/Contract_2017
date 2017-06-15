@@ -16,7 +16,20 @@
 function preview(url) {
 	window.open(url,'Preview','toolbar=no,scrollbars=yes,width=720,height=560,top=50,left=100');
 }
-
+function setState(conid, id) {
+	$.post("queryProcess.php",{
+		type: "Approve",
+		contractId: conid,
+		sql: "selectstate"
+	},function(data,status){
+		res=eval(data);
+		if (res[0].state == "Rejected") {
+			$("#" + id).text("未通过审核");
+		} else if (res[0].state == "Unfinished") {
+			$("#" + id).text("已通过审核，等待签订");
+		}
+	});
+}
 $(document).ready(function() {
 	$.post("queryState.php",{
 		sql: "selectinfo"
@@ -27,9 +40,20 @@ $(document).ready(function() {
     		var id = $("<td>").appendTo(tr);  
     		var a = $("<a>").appendTo(id).attr("href", "javascript:preview('contractDetail.html?contractId="+res[i].contractId+"');");
     		a.text(res[i].contractId);
+    		var state = "state" + i;
     		$("<td>").appendTo(tr).text(res[i].contractname);
     		$("<td>").appendTo(tr).text(res[i].drafttime);
-    		$("<td>").appendTo(tr).text(res[i].type);
+    		$("<td>").appendTo(tr).attr("id", state);
+    		if (res[i].type == "Draft")
+				$("#"+state).text("会签进行中");
+			else if (res[i].type == "Countersign")
+				$("#"+state).text("定稿进行中");
+			else if (res[i].type == "Finalized")
+				$("#"+state).text("审核进行中");
+			else if (res[i].type == "Sign")
+				$("#"+state).appendTo(tr).text("合同已签订");
+			else if (res[i].type == "Approve") 
+	    		setState(res[i].contractId , state);
     		$("<td>").appendTo(tr).text(res[i].asign == "1" ? "是" : "否");
         }
 	});
