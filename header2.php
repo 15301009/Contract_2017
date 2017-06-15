@@ -10,8 +10,6 @@
 
 <div class="header">
 <div class="toplinks"><span>Hello:<?php session_start(); echo $_SESSION['name']; ?>，欢迎来到合同管理系统 [<a href="login.php" target="_top">注销</a>]</span></div>
-<h1><img src="images/logo_title.png"
-	alt="Contract Management System" /></h1>
 </div>
 </body>
 </html>

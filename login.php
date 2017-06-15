@@ -9,7 +9,7 @@
  			if(top!=self){
  				top.location.href=self.location.href;
  			}  
-  		</script>
+ </script>
 <style type="text/css">
 .error {
 	color: #FF0000;
@@ -112,9 +112,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST")
 
 <div class="footer">
 <ul>
-	<li><a target="_blank" href="#">合同管理系统</a></li>
-	<li>|</li>
-	<li><a target="_blank" href="#">帮助</a></li>
+	<li><a target="_blank" href="login.php">合同管理系统</a></li>
 </ul>
 
 <p>Copyright&nbsp;&copy;&nbsp;倪施杰&nbsp;程辰&nbsp;Copyright Reserved</p>

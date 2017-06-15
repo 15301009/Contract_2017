@@ -26,7 +26,6 @@ if ($s == "insert") {
 	echo "起草合同成功";
 	$stmt->close();
 }  else if ($s == "select" && $contractId != "") {
-
 	$sql = "SELECT * FROM contract WHERE contractId = '".$contractId."'";
 
 	$result = $conn->query($sql);
@@ -39,5 +38,29 @@ if ($s == "insert") {
 	}
 	$json=json_encode($data);
 	echo $json;
+} else if ($s == "selectdraft") {
+	$sql = "SELECT draftUser FROM contract WHERE contractId = '".$contractId."'";
+
+	$result = $conn->query($sql);
+	if ($result->num_rows > 0) {
+		$row = mysqli_fetch_array($result);
+		session_start();
+		$name = $_SESSION['name'];
+		if ($row[0] == $name) {
+			echo true;
+		} else {
+			echo false;
+		}
+	} else {
+		echo false;
+	}
+} else if($s == "update") {
+	$sql = "UPDATE contract SET content = '".$content."' WHERE contractId = '".$contractId."'";
+	$sql1 = "UPDATE contract_state SET type = 'Finalized' WHERE contractId = '".$contractId."'";
+	if ($conn->query($sql) == TRUE && $conn->query($sql1) == TRUE) {
+		echo "操作成功";
+	} else {
+		echo "操作失败";
+	}
 }
 ?>

@@ -17,16 +17,17 @@ function getUrlParam(name) {
     if (r != null) return unescape(r[2]); return null;
 }
 var param = getUrlParam("contractId");
-/*function setOpinion(conid, opini) {
+function setOpinion(conid, opini) {
 	$.post("queryProcess.php",{
 		sql: "update",
-		type: "Countersigned",
+		type: "Countersign",
 		opinion: opini,
 		contractId: conid
 	},function(data,status){
         alert(data == 1 ? "操作成功" : "操作失败");
+        window.location.href='toBeCountersigned.html';
 	});
-}*/
+}
 $(document).ready(function() {
 	$.post("queryContract.php",{
 		contractId: param,
@@ -35,9 +36,9 @@ $(document).ready(function() {
 		res=eval(data);
         $("#contractname").text(res[0].contractname);
 	});
-	//$("#submit").bind("click",function() {
-		//setOpinion(param, $("#opinion").val());
-	//});
+	$("#submit").bind("click",function() {
+		setOpinion(param, $("#opinion").val());
+	});
 });
 </script>
 <div class="mtitle">会签合同</div>
@@ -55,8 +56,7 @@ $(document).ready(function() {
 	</tr>
 	<tr height="28">
 		<td align="center" colspan="2"><input id="submit" type="button"
-			value="提交" class="button"> &nbsp; &nbsp; &nbsp; <input
-			id="reset" type="button" value="重置" class="button"></td>
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp; </td>
 	</tr>
 </table>
 </form>

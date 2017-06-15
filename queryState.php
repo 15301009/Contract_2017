@@ -24,6 +24,10 @@ if($s == "selectinfo") {
 	$sql = "SELECT c.contractId, contractname, drafttime
 	 FROM contract c,contract_state s WHERE c.contractId = s.contractId AND type = '".$type."'";
 
+	if ($type == 'Approve') {
+		$sql = "SELECT c.contractId, contractname, drafttime
+	 	FROM contract c,contract_state s, contract_process p WHERE c.contractId = s.contractId AND c.contractId = p.contractId AND s.type = 'Approve' AND p.type = 'Approve' AND p.state > 'Rejected'";
+	}
 	$result = $conn->query($sql);
 	$data = array();
 	if ($result->num_rows > 0) {

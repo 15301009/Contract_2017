@@ -79,14 +79,49 @@ if($s == "selectprocess") {
 	} else {
 		echo false;
 	}
+} else if ($s == "selectuser") {
+	session_start();
+	$name = $_SESSION['name'];
+	echo $name;
 } else if($s == "update") {
 	session_start();
 	$name = $_SESSION['name'];
-	$sql = "UPDATE contract_process SET opinion = '".$opinion.". WHERE contractId = '".$contractId."' AND type = '".$type."' AND username ='".$name."'";
-	if ($conn->query($sql) == TRUE) {
+	if ($state == "") {
+		$sql = "UPDATE contract_process SET opinion = '".$opinion."' WHERE contractId = '".$contractId."' AND type = '".$type."' AND username ='".$name."'";
+	} else {
+		$sql = "UPDATE contract_process SET opinion = '".$opinion."', state = '".$state."' WHERE contractId = '".$contractId."' AND type = '".$type."' AND username ='".$name."'";
+	}
+	
+	$sql1 = "UPDATE contract_state SET type = '".$type."' WHERE contractId = '".$contractId."'";
+	
+	if ($conn->query($sql) == TRUE && $conn->query($sql1) == TRUE) {
 		echo true;
 	} else {
 		echo false;
 	}
+} else if ($s == "selectopinion") {
+	$sql = "SELECT username, opinion FROM contract_process WHERE contractId = '".$contractId."' AND type='".$type."'";
+
+	$result = $conn->query($sql);
+	$data = array();
+	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()) {
+			$data[] = array('username' => $row["username"], 'opinion' => $row["opinion"]);
+		}
+	}
+	$json=json_encode($data);
+	echo $json;
+} else if ($s == "selectstate") {
+	$sql = "SELECT state FROM contract_process WHERE contractId = '".$contractId."' AND type='".$type."'";
+
+	$result = $conn->query($sql);
+	$data = array();
+	if ($result->num_rows > 0) {
+		while($row = $result->fetch_assoc()) {
+			$data[] = array('state' => $row["state"]);
+		}
+	}
+	$json=json_encode($data);
+	echo $json;
 }
 ?>

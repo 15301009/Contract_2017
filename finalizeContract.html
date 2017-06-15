@@ -1,0 +1,93 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Finalize contract</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+	<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
+
+<body>
+<script type="text/javascript">
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("contractId");
+function originContract() {
+    $.post("queryContract.php",{
+		sql:"select",
+		contractId: param
+	},function(data,status){
+		res=eval(data);
+		$("<td>").appendTo("#contractname").text(res[0].contractname);
+		$("<td>").appendTo("#customer").text(res[0].customername);
+		
+		$("<td>").appendTo("#begindate").text(res[0].begintime);
+		$("<td>").appendTo("#enddate").text(res[0].endtime);
+		$("#content").val(res[0].content);
+	});
+}
+
+function modifyContract(cont) {
+	$.post("queryContract.php",{
+		contractId: param,
+		content: cont,
+		sql:"update"
+	},function(data,status){
+		alert(data);
+		window.location.href='toBeFinalized.html';
+	});
+}
+$(document).ready(function() {
+	originContract();
+	$("#reset").bind("click",function() {
+		originContract();
+	});
+	$("#submit").bind("click",function() {
+		modifyContract($("#content").val());
+	});
+});
+</script>
+<div class="mtitle">合同定稿</div>
+<br />
+<form>
+<table class="update" style="width: 700px;">
+	<tr id="contractname" height="28">
+		<td width="140">合同名：</td>
+	</tr>
+
+	<tr id="customer" height="28">
+		<td>客户名：</td>
+	</tr>
+	<tr id="begindate">
+		<td>开始日期：</td>
+	</tr>
+	<tr id="enddate">
+		<td>结束日期：</td>
+	</tr>
+	<tr >
+		<td>合同内容：</td>
+		<td></td>
+	</tr>
+
+	<tr>
+		<td colspan="2"><textarea id="content" rows="40" cols="100" name="content"
+			style="width: 680px; height: 400px; resize: none;"></textarea></td>
+	</tr>
+	<tr height="28">
+		<td>附件：</td>
+		<td><input type="file" /></td>
+	</tr>
+
+	<tr height="28">
+		<td align="center" colspan="2"><input id="submit" type="button"
+			value="提交" class="button"> &nbsp; &nbsp; &nbsp; <input id="reset"
+			type="button" value="重置" class="button"></td>
+	</tr>
+</table>
+</form>
+</body>
+</html>

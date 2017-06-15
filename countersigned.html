@@ -18,7 +18,7 @@ function preview(url) {
 $(document).ready(function() {
 	$.post("queryState.php",{
 		sql: "select",
-		type: "Countersigned"
+		type: "Countersign"
 	},function(data,status){
 		res=eval(data);
         for(var i=0;i<res.length;i++){

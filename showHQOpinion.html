@@ -1,55 +1,48 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<title>Display countersign opinion</title>
-		<link href="css/style.css" rel="stylesheet" media="screen"
-			type="text/css" />
-	</head>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Display countersign opinion</title>
+<link href="css/style.css" rel="stylesheet" media="screen"
+	type="text/css" />
+<script src="http://cdn.static.runoob.com/libs/jquery/1.10.2/jquery.min.js"></script>
+</head>
 
-	<body>
-		<div class="mtitle">
-			Countersign opinion
-		</div>
-		
-		<br />
-		<div class="listOpinion">
-			<table>
-				<tr>
-					<th width="100">
-						Operator
-					</th>
-					<th width="600">
-						Opinion
-					</th>
-				</tr>
-				<tr>
-					<td>
-						lucy
-					</td>
-					<td>
-						...agree
-					</td>
-				</tr>
-				<tr>
-					<td>
-						lily
-					</td>
-					<td>
-						...agree
-					</td>
-				</tr>
-				<tr>
-					<td>
-						jack
-					</td>
-					<td>
-						...agree
-					</td>
-				</tr>
-			</table>
-		</div>
-		<br />
+<body>
+<div class="mtitle">Countersign opinion</div>
+<script>
+function getUrlParam(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+}
+var param = getUrlParam("contractId");
+$(document).ready(function() {
+	$.post("queryProcess.php",{
+		sql: "selectopinion",
+		type: "Countersign",
+		contractId: param
+	},function(data,status){
+		res=eval(data);
+        for(var i=0;i<res.length;i++){
+        	var tr = $("<tr>").appendTo("#opinionList");
+    		$("<td>").appendTo(tr).text(res[0].username);
+    		$("<td>").appendTo(tr).text(res[0].opinion);
+        }
+        
+	});
+});
+</script>
+<br />
+<div class="listOpinion">
+<table id="opinionList">
+	<tr>
+		<th width="100">操作员</th>
+		<th width="600">意见</th>
+	</tr>
+</table>
+</div>
+<br />
 
-	</body>
+</body>
 </html>

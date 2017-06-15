@@ -14,6 +14,23 @@
 function preview(url) {
 	window.open(url,'Preview','toolbar=no,scrollbars=yes,width=720,height=560,top=50,left=100');
 }
+function havePermission(td, conId) {
+	$.post("queryContract.php",{
+		sql: "selectdraft",
+		contractId: conId
+	},function(data,status){
+		var t = $("<a>").appendTo(td);
+		t.attr("href", "javascript:preview('showHQOpinion.html?contractId="+conId+"');");
+		t.text("会签意见");
+		t.prepend("<img src='images/information.png'>");
+		if (data == 1) {
+			var t1 = $("<a>").appendTo(td);
+			t1.attr("href", "finalizeContract.html?contractId="+conId);
+			t1.text("定稿");
+			t1.prepend("<img src='images/icon-edit.png'>");
+		}
+	});
+}
 $(document).ready(function() {
 	$.post("queryState.php",{
 		sql: "select",
@@ -35,7 +52,7 @@ $(document).ready(function() {
 	});
 });
 </script>
-<div class="mtitle">Contract to be finalized</div>
+<div class="mtitle">待定稿合同</div>
 
 <div class="list">
 <table id="conList">
@@ -45,16 +62,6 @@ $(document).ready(function() {
 		<th class="th1">起草时间</th>
 		<th width="270px">操作</th>
 	</tr>
-	<tr>
-		<td class="tdname"><a
-			href="javascript:preview('contractDetail.htm');">Labor Contract</a></td>
-		<td>2013-12-21</td>
-		<td class="operate"><a
-			href="javascript:preview('showHQOpinion.htm');"> <img
-			src="images/information.png" alt="Countersign  opinion" />
-		Countersign opinion </a> &nbsp;|&nbsp; <a href="dgContract.htm"> <img
-			src="images/icon-edit.png" alt="Finalize " /> Finalize </a></td>
-	</tr>
 	
 
 	<tr>
@@ -62,13 +69,5 @@ $(document).ready(function() {
 	</tr>
 </table>
 </div>
-
-<div align="right" class="pagelist"><a href="#"><img
-	src="images/page/first.png" alt="" /></a> &nbsp; <a href="#"><img
-	src="images/page/pre.png" alt="" /></a>&nbsp; <a href="#"><img
-	src="images/page/next.png" alt="" /></a>&nbsp; <a href="#"><img
-	src="images/page/last.png" alt="" /></a>&nbsp; <span class="pageinfo">
-Total&nbsp;<strong>2</strong>&nbsp;pages&nbsp;<strong>13</strong>&nbsp;records
-</span></div>
 </body>
 </html>
